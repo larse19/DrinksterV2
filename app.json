@@ -27,6 +27,24 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "facebookScheme": "fb1165061727321771",
+    "facebookAppId": "1165061727321771",
+    "facebookDisplayName": "Drinkster",
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyBXmztVI9wf6D6kI1O-ms1oNfD1PwOSgdw",
+        "authDomain": "drinkster-c77b9.firebaseapp.com",
+        "databaseURL": "https://drinkster-c77b9-default-rtdb.europe-west1.firebasedatabase.app",
+        "projectId": "drinkster-c77b9",
+        "storageBucket": "drinkster-c77b9.appspot.com",
+        "messagingSenderId": "953714968320",
+        "appId": "1:953714968320:web:8356681d0592400eef95e5",
+        "measurementId": "G-9WKF2ZBSVQ"
+      },
+      "facebook": {
+        "appId": "1165061727321771"
+      }
     }
   }
 }
