@@ -3,15 +3,15 @@ import { StyleSheet } from 'react-native';
 export const colors = {
     primary:'#FF8100',
     secondary:'#FFAD00',
-    tertiary:'#FF3900'
+    tertiary:'#FF3900',
+    light_grey: '#847E7E',
+    grey: '#524B4B'
 }
 
 export const common = StyleSheet.create({
   background: {
     flex: 1,
     backgroundColor: '#383535',
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   title:{
     position: 'absolute',
