@@ -14,10 +14,10 @@ export default DrinksterTitle;
 
 const styles = StyleSheet.create({
     container: {
-        height:75,
-        flex: 1,
-        justifyContent: 'center',
-        alignContent: 'center'
+        //height:75,
+        //flex: 1,
+        //justifyContent: 'center',
+        //alignContent: 'center'
     },
     text: {
         fontSize: 64,

@@ -7,6 +7,7 @@ import HomePage from './screens/homePage/homePage';
 import LoginPage from './screens/loginPage/loginPage';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import PartyPage from './screens/partyPage/partyPage';
 
 export default function App() {
 
@@ -18,6 +19,7 @@ export default function App() {
         <Stack.Screen name='Login' component={LoginPage}/>
         <Stack.Screen name='Home' component={HomePage}/>
         <Stack.Screen name='Find Party' component={FindParty}/>
+        <Stack.Screen name='Party Page' component={PartyPage}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

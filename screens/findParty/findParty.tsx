@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import BackButton from "../../common/components/backButton";
 import WideButton from "../../common/components/wideButton";
-import { colors, common, buttons } from "../../common/styles/styles";
+import { colors, common} from "../../common/styles/styles";
 import NearbyParties from "./nearbyParties";
 
 const FindParty = (props: any) => {
@@ -20,7 +20,7 @@ const FindParty = (props: any) => {
   const [inputValue, setInputValue] = useState("");
 
   const joinParty = () => {
-    console.log(partyID);
+    props.navigation.navigate('Party Page')
   };
 
   const selectParty = (partyID: string) => {
