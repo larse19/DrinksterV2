@@ -18,3 +18,9 @@ export const common = StyleSheet.create({
     top: '10%'
   }
 })
+
+export const buttons = StyleSheet.create({
+    backButton: {
+        marginLeft: 15,
+  }
+})

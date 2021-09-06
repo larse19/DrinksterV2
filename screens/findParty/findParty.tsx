@@ -10,8 +10,9 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from "react-native";
+import BackButton from "../../common/components/backButton";
 import WideButton from "../../common/components/wideButton";
-import { colors, common } from "../../common/styles/styles";
+import { colors, common, buttons } from "../../common/styles/styles";
 import NearbyParties from "./nearbyParties";
 
 const FindParty = (props: any) => {
@@ -32,6 +33,7 @@ const FindParty = (props: any) => {
 
   return (
     <SafeAreaView style={[common.background]}>
+        <BackButton navigation={props.navigation}/>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
@@ -93,7 +95,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colors.primary,
     fontWeight: "900",
-  },
+  }
 });
 
 export default FindParty;
