@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import BackButton from "../../common/components/backButton";
 import WideButton from "../../common/components/wideButton";
-import { colors, common} from "../../common/styles/styles";
+import { colors, common, inputStyles} from "../../common/styles/styles";
 import NearbyParties from "./nearbyParties";
 
 const FindParty = (props: any) => {
@@ -45,7 +45,7 @@ const FindParty = (props: any) => {
         <View style={styles.partyID}>
           <Text style={styles.text}>Join with #PartyID</Text>
           <TextInput
-            style={styles.textInput}
+            style={inputStyles.textInput}
             placeholder={"#ParyID"}
             placeholderTextColor={"#fff"}
             value={inputValue}
@@ -80,16 +80,6 @@ const styles = StyleSheet.create({
     width: 350,
     justifyContent: "center",
     alignItems: "center",
-  },
-  textInput: {
-    height: 50,
-    backgroundColor: colors.light_grey,
-    borderRadius: 10,
-    marginVertical: 10,
-    paddingHorizontal: 10,
-    fontSize: 20,
-    width: 350,
-    color: "white",
   },
   text: {
     fontSize: 30,
