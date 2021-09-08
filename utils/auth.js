@@ -28,30 +28,43 @@ export const signInWithEmail = async (email, password) => {
 };
 
 export const createUser = async (username, email, password) => {
-  firebase
-    .auth()
-    .createUserWithEmailAndPassword(email, password)
-    .then((userCredential) => {
-      // Signed in
-      var user = userCredential.user;
-      user
-        .updateProfile({
-          displayName: username,
-        })
-        .then(() => {
-          signInWithEmail(email, password);
-        })
-        .catch((error) => {
-          // An error occurred
-          // ...
-        });
-      // ...
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ..
-    });
+  const userObj = await firebase.database().ref("users").once("value");
+  if (userObj.child(username).exists()) {
+    console.log("Username already exists");
+    return false;
+  } else {
+    firebase
+      .auth()
+      .createUserWithEmailAndPassword(email, password)
+      .then((userCredential) => {
+        // Signed in
+        // Set username
+        var user = userCredential.user;
+        user
+          .updateProfile({
+            displayName: username,
+          })
+          .then(() => {
+            // Log In
+            signInWithEmail(email, password);
+            // Create user in database
+            firebase
+              .database()
+              .ref("users/" + username)
+              .set({
+                party: {},
+                previousParties: {},
+              });
+          })
+          .catch((error) => {
+            // An error occurred
+          });
+      })
+      .catch((error) => {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+      });
+  }
 };
 
 export const signOutUser = async (navigation) => {
