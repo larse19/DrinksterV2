@@ -1,18 +1,72 @@
-import firebase from 'firebase';
-import * as Facebook from 'expo-facebook';
-import Constants from 'expo-constants';
+import firebase from "firebase";
+import Constants from "expo-constants";
 
-firebase.initializeApp(Constants.manifest.extra.firebase);
+if (firebase.apps.length === 0) {
+  firebase.initializeApp(Constants.manifest.extra.firebase);
+}
 
 // Listen for authentication state to change.
 firebase.auth().onAuthStateChanged((user) => {
- if (user) 
-     console.log("Logged in with user: ", user);
- else 
-     console.log('Not logged in')
+  if (user) console.log("Logged in with user: ", user);
+  else console.log("Not logged in");
 });
 
+export const signInWithEmail = async (email, password) => {
+  //const auth = getAuth();
+  firebase
+    .auth()
+    .signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in
+      const user = userCredential.user;
+      return user;
+    })
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+    });
+};
 
+export const createUser = async (username, email, password) => {
+  firebase
+    .auth()
+    .createUserWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // Signed in
+      var user = userCredential.user;
+      user
+        .updateProfile({
+          displayName: username,
+        })
+        .then(() => {
+          signInWithEmail(email, password);
+        })
+        .catch((error) => {
+          // An error occurred
+          // ...
+        });
+      // ...
+    })
+    .catch((error) => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // ..
+    });
+};
+
+export const signOutUser = async (navigation) => {
+  firebase
+    .auth()
+    .signOut()
+    .then(() => {
+      console.log("Signed out");
+    })
+    .catch((error) => {
+      // An error happened.
+    });
+};
+
+/*
 export const handleAuth = async () => {
     console.log(Constants.manifest.extra.facebook.appId)
  try {
@@ -37,3 +91,4 @@ export const handleAuth = async () => {
      alert(`Facebook Login Error: ${message}`);
  }
 }
+*/
