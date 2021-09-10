@@ -27,3 +27,24 @@ export const createParty = async (name, isPublic) => {
   partyObj.participants[user] = 0;
   database.ref("parties/" + id).set(partyObj);
 };
+
+export const joinParty = async (partyID) => {
+  const database = firebase.database();
+  const user = firebase.auth().currentUser.displayName;
+  if (await checkIfPartyIDExists(database, partyID)) {
+    database
+      .ref("parties/" + partyID + "/participants/" + user)
+      .set(0) // Add user to party, with 0 drinks
+      .then(() => {
+        database.ref("users/" + user + "/party").set(partyID); // Set the current party on the user object
+      })
+      .then(() => {
+        console.log("User joined party; " + partyID);
+      })
+      .catch(() => {
+        console.log("Failed to join party");
+      });
+  } else {
+    console.log("Party with id " + partyID + " doesn't exist");
+  }
+};

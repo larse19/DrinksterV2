@@ -12,15 +12,18 @@ import {
 } from "react-native";
 import BackButton from "../../common/components/backButton";
 import WideButton from "../../common/components/wideButton";
-import { colors, common, inputStyles} from "../../common/styles/styles";
+import { colors, common, inputStyles } from "../../common/styles/styles";
 import NearbyParties from "./nearbyParties";
+import { joinParty } from "../../utils/database";
 
 const FindParty = (props: any) => {
   const [partyID, setPartyID] = useState("");
   const [inputValue, setInputValue] = useState("");
 
-  const joinParty = () => {
-    props.navigation.navigate('Party Page')
+  const join = async () => {
+    joinParty(partyID).then(() => {
+      props.navigation.navigate("Party Page");
+    });
   };
 
   const selectParty = (partyID: string) => {
@@ -33,7 +36,7 @@ const FindParty = (props: any) => {
 
   return (
     <SafeAreaView style={[common.background]}>
-        <BackButton navigation={props.navigation}/>
+      <BackButton navigation={props.navigation} />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}
@@ -56,7 +59,7 @@ const FindParty = (props: any) => {
       <WideButton
         title={"join party"}
         color={colors.secondary}
-        onPress={joinParty}
+        onPress={join}
       />
     </SafeAreaView>
   );
@@ -85,7 +88,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     color: colors.primary,
     fontWeight: "900",
-  }
+  },
 });
 
 export default FindParty;

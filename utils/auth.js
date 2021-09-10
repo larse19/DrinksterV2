@@ -45,16 +45,19 @@ export const createUser = async (username, email, password) => {
             displayName: username,
           })
           .then(() => {
-            // Log In
-            signInWithEmail(email, password);
             // Create user in database
+            console.log("User Created");
             firebase
               .database()
               .ref("users/" + username)
               .set({
-                party: {},
-                previousParties: {},
-              });
+                party: "None",
+                previousParties: "None",
+              })
+              .then(() => {
+                console.log("User Created in db");
+              })
+              .catch((e) => console.log(e));
           })
           .catch((error) => {
             // An error occurred
