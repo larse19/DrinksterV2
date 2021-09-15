@@ -22,7 +22,7 @@ const FindParty = (props: any) => {
 
   const join = async () => {
     joinParty(partyID).then(() => {
-      props.navigation.navigate("Party Page");
+      props.navigation.navigate("Party Page", { partyID: partyID });
     });
   };
 

@@ -48,3 +48,8 @@ export const joinParty = async (partyID) => {
     console.log("Party with id " + partyID + " doesn't exist");
   }
 };
+
+export const getPartyName = async (partyID) => {
+  const obj = await firebase.database().ref("parties/").once("value");
+  return obj.child("name");
+};

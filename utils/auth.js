@@ -49,7 +49,7 @@ export const createUser = async (username, email, password) => {
             console.log("User Created");
             firebase
               .database()
-              .ref("users/" + username)
+              .ref("users/" + userCredential.user.uid)
               .set({
                 party: "None",
                 previousParties: "None",
