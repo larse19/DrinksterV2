@@ -14,6 +14,7 @@ import WideButton from "../../common/components/wideButton";
 import { colors, common, inputStyles } from "../../common/styles/styles";
 import { createUser, signInWithEmail } from "../../utils/auth";
 import BackButton from "../../common/components/backButton";
+import CustomSafeAreaView from "../../common/components/customSafeAreaView";
 
 const signUp = async (
   username: string,
@@ -35,7 +36,7 @@ function CreateUserPage(props: any) {
   const [passwordField2, setPasswordField2] = useState("");
 
   return (
-    <SafeAreaView style={common.background}>
+    <CustomSafeAreaView style={common.background}>
       <BackButton navigation={props.navigation} />
       <DrinksterTitle style={common.title} />
       <KeyboardAvoidingView
@@ -81,7 +82,7 @@ function CreateUserPage(props: any) {
           signUp(usernameField, emailField, passwordField, passwordField2)
         }
       />
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 }
 

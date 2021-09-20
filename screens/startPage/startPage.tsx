@@ -4,6 +4,7 @@ import DrinksterTitle from "../../common/components/drinksterTitle";
 import WideButton from "../../common/components/wideButton";
 import { common, colors } from "../../common/styles/styles";
 import firebase from "firebase";
+import CustomSafeAreaView from "../../common/components/customSafeAreaView";
 
 function StartPage(props: any) {
   useEffect(() => {
@@ -17,7 +18,7 @@ function StartPage(props: any) {
   }, []);
 
   return (
-    <SafeAreaView style={common.background}>
+    <CustomSafeAreaView style={common.background}>
       <DrinksterTitle style={common.title} />
       <View style={styles.container}>
         <WideButton
@@ -31,7 +32,7 @@ function StartPage(props: any) {
           onPress={() => props.navigation.navigate("Login")}
         />
       </View>
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 }
 

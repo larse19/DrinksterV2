@@ -16,6 +16,7 @@ import firebase from "firebase";
 import WideButton from "../../common/components/wideButton";
 import HalfButton from "../../common/components/halfButton";
 import AddDrinkModal from "./addDrinkModal";
+import CustomSafeAreaView from "../../common/components/customSafeAreaView";
 
 function PartyPage(props: any) {
   const [partyName, setPartyName] = useState<string>("");
@@ -111,7 +112,9 @@ function PartyPage(props: any) {
 
   const leave = async () => {
     setHasLeft(true);
-    leaveParty(userID, partyID).then(() => {});
+    leaveParty(userID, partyID).then(() => {
+      props.navigation.navigate("Home");
+    });
   };
 
   const toggleModal = () => {
@@ -119,7 +122,7 @@ function PartyPage(props: any) {
   };
 
   return (
-    <SafeAreaView style={[common.background, { alignItems: "center" }]}>
+    <CustomSafeAreaView style={[common.background, { alignItems: "center" }]}>
       <DrinksterTitle />
       <View style={styles.container}>
         <View style={styles.nameContainer}>
@@ -149,7 +152,7 @@ function PartyPage(props: any) {
           onPress={leavePartyAlert}
         />
       </View>
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 }
 

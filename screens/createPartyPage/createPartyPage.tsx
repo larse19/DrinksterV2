@@ -7,6 +7,7 @@ import WideButton from "../../common/components/wideButton";
 import { colors, common, inputStyles } from "../../common/styles/styles";
 import { createParty, joinParty } from "../../utils/database";
 import BackButton from "../../common/components/backButton";
+import CustomSafeAreaView from "../../common/components/customSafeAreaView";
 
 function CreatePartyPage(props: any) {
   const [partyNameField, setPartyNameField] = useState("");
@@ -25,7 +26,7 @@ function CreatePartyPage(props: any) {
   };
 
   return (
-    <SafeAreaView style={common.background}>
+    <CustomSafeAreaView style={common.background}>
       <BackButton navigation={props.navigation} />
       <DrinksterTitle style={common.title} />
       <View style={styles.container}>
@@ -66,7 +67,7 @@ function CreatePartyPage(props: any) {
         color={colors.primary}
         onPress={create}
       />
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 }
 

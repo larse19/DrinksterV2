@@ -12,6 +12,7 @@ export const colors = {
 export const common = StyleSheet.create({
   background: {
     flex: 1,
+    padding: "2%",
     backgroundColor: "#383535",
   },
   title: {

@@ -26,11 +26,13 @@ function AddDrinkModal(props: any) {
               title={"add"}
               onPress={addDrinkTest}
               color={colors.primary}
+              style={styles.button}
             ></WideButton>
             <WideButton
               title={"close"}
               onPress={props.toggleHandler}
               color={colors.tertiary}
+              style={styles.button}
             />
           </View>
         </View>
@@ -45,13 +47,16 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flex: 1,
-    marginVertical: 80,
-    marginHorizontal: 25,
+    marginVertical: 20,
+    marginHorizontal: 10,
     borderRadius: 10,
   },
   modalBackground: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.7)",
+  },
+  button: {
+    width: "100%",
   },
 });
 

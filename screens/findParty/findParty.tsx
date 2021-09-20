@@ -16,6 +16,7 @@ import { colors, common, inputStyles } from "../../common/styles/styles";
 import NearbyParties from "./nearbyParties";
 import { joinParty } from "../../utils/database";
 import firebase from "firebase";
+import CustomSafeAreaView from "../../common/components/customSafeAreaView";
 
 const FindParty = (props: any) => {
   const [partyID, setPartyID] = useState("");
@@ -54,7 +55,7 @@ const FindParty = (props: any) => {
   }, []);
 
   return (
-    <SafeAreaView style={[common.background]}>
+    <CustomSafeAreaView style={[common.background]}>
       <BackButton navigation={props.navigation} />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -80,7 +81,7 @@ const FindParty = (props: any) => {
         color={colors.secondary}
         onPress={join}
       />
-    </SafeAreaView>
+    </CustomSafeAreaView>
   );
 };
 
