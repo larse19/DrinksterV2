@@ -15,6 +15,7 @@ import WideButton from "../../common/components/wideButton";
 import { colors, common, inputStyles } from "../../common/styles/styles";
 import NearbyParties from "./nearbyParties";
 import { joinParty } from "../../utils/database";
+import firebase from "firebase";
 
 const FindParty = (props: any) => {
   const [partyID, setPartyID] = useState("");
@@ -33,6 +34,24 @@ const FindParty = (props: any) => {
   useEffect(() => {
     setPartyID(inputValue);
   }, [inputValue]);
+
+  useEffect(() => {
+    const onValueChange = firebase
+      .database()
+      .ref("users/" + firebase.auth().currentUser?.uid)
+      .on("value", (snapshot) => {
+        if (snapshot.val().party != "None") {
+          props.navigation.navigate("Party Page", {
+            partyID: snapshot.val().party,
+          });
+        }
+      });
+    return () =>
+      firebase
+        .database()
+        .ref("users/" + firebase.auth().currentUser?.uid)
+        .off("value", onValueChange);
+  }, []);
 
   return (
     <SafeAreaView style={[common.background]}>

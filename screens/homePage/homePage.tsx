@@ -1,14 +1,10 @@
-import { useLinkProps } from "@react-navigation/native";
-import React from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, View } from "react-native";
 import DrinksterTitle from "../../common/components/drinksterTitle";
 import SignOutButton from "../../common/components/signOutButton";
 import WideButton from "../../common/components/wideButton";
 import { colors, common } from "../../common/styles/styles";
-
-const test = () => {
-  console.log("test");
-};
+import firebase from "firebase";
 
 export default function HomePage(props: any) {
   return (

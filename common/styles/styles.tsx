@@ -6,6 +6,7 @@ export const colors = {
   tertiary: "#FF3900",
   light_grey: "#847E7E",
   grey: "#524B4B",
+  dark_grey: "#383535",
 };
 
 export const common = StyleSheet.create({

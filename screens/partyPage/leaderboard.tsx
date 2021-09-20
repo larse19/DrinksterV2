@@ -1,53 +1,24 @@
-import React from "react";
-import { View, Text, FlatList, StyleSheet } from "react-native";
+import React, { useEffect } from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  TouchableHighlight,
+  Dimensions,
+} from "react-native";
 import { colors } from "../../common/styles/styles";
 
 function Leaderboard(props: any) {
-  const participants = [
-    {
-      userID: "1",
-      username: "Anders",
-      numOfDrinks: "5",
-    },
-    {
-      userID: "2",
-      username: "Peter",
-      numOfDrinks: "3",
-    },
-    {
-      userID: "3",
-      username: "Simon",
-      numOfDrinks: "15",
-    },
-    {
-      userID: "4",
-      username: "Niels",
-      numOfDrinks: "6",
-    },
-    {
-      userID: "5",
-      username: "Andreas",
-      numOfDrinks: "6",
-    },
-    {
-      userID: "6",
-      username: "Emil",
-      numOfDrinks: "13",
-    },
-    {
-      userID: "7",
-      username: "Lind",
-      numOfDrinks: "0",
-    },
-  ];
-
   const item = ({ item }: any) => (
-    <View style={styles.item}>
-      <Text numberOfLines={1} style={styles.itemText}>
-        {item.username}
-      </Text>
-      <Text style={styles.itemID}>{item.numOfDrinks}</Text>
-    </View>
+    <TouchableHighlight>
+      <View style={styles.item}>
+        <Text numberOfLines={1} style={styles.itemText}>
+          {item[item.id].displayName}
+        </Text>
+        <Text style={styles.itemID}>{item.numOfDrinks}</Text>
+      </View>
+    </TouchableHighlight>
   );
 
   return (
@@ -55,7 +26,10 @@ function Leaderboard(props: any) {
       <FlatList
         data={props.participants}
         renderItem={item}
-        keyExtractor={(item) => item.userID}
+        keyExtractor={(item) => item.id}
+        style={styles.list}
+        persistentScrollbar={true}
+        showsVerticalScrollIndicator={true}
       />
     </View>
   );
@@ -65,15 +39,16 @@ export default Leaderboard;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.light_grey,
-    justifyContent: "space-around",
-    borderRadius: 10,
-    minWidth: 350,
+    backgroundColor: colors.dark_grey,
+    borderRadius: 0,
+    width: Dimensions.get("window").width,
+    height: Dimensions.get("window").height * 0.5,
   },
+  list: { flexGrow: 1 },
   item: {
     backgroundColor: colors.grey,
-    margin: 5,
-    borderRadius: 10,
+    marginVertical: 5,
+    borderRadius: 0,
     padding: 10,
     marginHorizontal: 10,
     flexDirection: "row",
@@ -86,7 +61,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   itemID: {
-    color: colors.light_grey,
+    color: "white",
+    fontSize: 20,
     marginLeft: 5,
   },
 });

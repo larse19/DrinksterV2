@@ -5,6 +5,20 @@ const checkIfPartyIDExists = async (database, id) => {
   return obj.child(id).exists();
 };
 
+const getUsersCurrentParty = async (database, id) => {
+  let obj = await database.ref("users/" + id + "/party").get();
+  console.log(obj);
+  return obj;
+};
+
+const checkIfPartyIsInPrevious = async (userID, partyID) => {
+  let obj = await firebase
+    .database()
+    .ref("users/" + userID + "/previousParties")
+    .once("value");
+  return obj.child(partyID).exists();
+};
+
 export const createParty = async (name, isPublic) => {
   const database = firebase.database();
   let id = parseInt(Math.random() * 1000000) + "";
@@ -12,38 +26,48 @@ export const createParty = async (name, isPublic) => {
     console.log("new id");
     id = parseInt(Math.random() * 1000000) + "";
   }
-  const user = firebase.auth().currentUser.displayName;
+  const user = firebase.auth().currentUser;
   let partyObj = {
     name: name,
-    owner: user,
+    owner: user.uid,
     public: isPublic,
-    location: {
-      latitude: "55",
-      longitude: "10",
-    },
     participants: {},
     created: Date.now(),
   };
-  partyObj.participants[user] = 0;
-  database.ref("parties/" + id).set(partyObj);
+  partyObj.participants[user.uid] = {
+    displayName: user.displayName,
+    drinks: {
+      beersAndCiders: 0,
+      drinks: 0,
+      shots: 0,
+    },
+  };
+  database
+    .ref("parties/" + id)
+    .set(partyObj)
+    .then(() => {
+      return id;
+    });
 };
 
 export const joinParty = async (partyID) => {
   const database = firebase.database();
-  const user = firebase.auth().currentUser.displayName;
-  if (await checkIfPartyIDExists(database, partyID)) {
-    database
-      .ref("parties/" + partyID + "/participants/" + user)
-      .set(0) // Add user to party, with 0 drinks
-      .then(() => {
-        database.ref("users/" + user + "/party").set(partyID); // Set the current party on the user object
-      })
-      .then(() => {
-        console.log("User joined party; " + partyID);
-      })
-      .catch(() => {
-        console.log("Failed to join party");
-      });
+  const user = firebase.auth().currentUser;
+  if (await checkIfPartyIsInPrevious(user.uid, partyID)) {
+    // User has been in the party before, and will therefore not be added to the pary again,
+    // they will just rejoin it
+    let updates = {};
+    updates["users/" + user.uid + "/party"] = partyID;
+    database.ref().update(updates);
+  } else if (await checkIfPartyIDExists(database, partyID)) {
+    // User hasn't been in the party before, and will be added
+    let updates = {};
+    updates["parties/" + partyID + "/participants/" + user.uid] = {
+      displayName: user.displayName,
+      drinks: 0,
+    };
+    updates["users/" + user.uid + "/party"] = partyID;
+    database.ref().update(updates);
   } else {
     console.log("Party with id " + partyID + " doesn't exist");
   }
@@ -52,4 +76,20 @@ export const joinParty = async (partyID) => {
 export const getPartyName = async (partyID) => {
   const obj = await firebase.database().ref("parties/").once("value");
   return obj.child("name");
+};
+
+export const addDrink = async (partyID, userID, drinkType) => {
+  const database = firebase.database();
+  database
+    .ref(
+      "parties/" + partyID + "/participants/" + userID + "/drinks/" + Date.now()
+    )
+    .set(drinkType);
+};
+
+export const leaveParty = async (userID, partyID) => {
+  let updates = {};
+  updates["users/" + userID + "/previousParties/" + partyID] = true;
+  updates["users/" + userID + "/party"] = "None";
+  firebase.database().ref().update(updates);
 };

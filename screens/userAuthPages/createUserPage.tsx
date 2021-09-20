@@ -13,6 +13,7 @@ import DrinksterTitle from "../../common/components/drinksterTitle";
 import WideButton from "../../common/components/wideButton";
 import { colors, common, inputStyles } from "../../common/styles/styles";
 import { createUser, signInWithEmail } from "../../utils/auth";
+import BackButton from "../../common/components/backButton";
 
 const signUp = async (
   username: string,
@@ -35,6 +36,7 @@ function CreateUserPage(props: any) {
 
   return (
     <SafeAreaView style={common.background}>
+      <BackButton navigation={props.navigation} />
       <DrinksterTitle style={common.title} />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}

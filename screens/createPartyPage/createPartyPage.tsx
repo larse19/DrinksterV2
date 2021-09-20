@@ -5,20 +5,28 @@ import { RadioButton } from "react-native-paper";
 import DrinksterTitle from "../../common/components/drinksterTitle";
 import WideButton from "../../common/components/wideButton";
 import { colors, common, inputStyles } from "../../common/styles/styles";
-import { createParty } from "../../utils/database";
+import { createParty, joinParty } from "../../utils/database";
+import BackButton from "../../common/components/backButton";
 
 function CreatePartyPage(props: any) {
   const [partyNameField, setPartyNameField] = useState("");
   const [checked, setChecked] = useState("");
 
-  const create = () => {
+  const create = async () => {
     if (partyNameField != "" && checked != "") {
-      createParty(partyNameField, checked == "public" ? true : false);
+      createParty(partyNameField, checked == "public" ? true : false).then(
+        (id) => {
+          joinParty(id).then(() => {
+            props.navigation.navigate("Party Page", { partyID: id });
+          });
+        }
+      );
     }
   };
 
   return (
     <SafeAreaView style={common.background}>
+      <BackButton navigation={props.navigation} />
       <DrinksterTitle style={common.title} />
       <View style={styles.container}>
         <TextInput

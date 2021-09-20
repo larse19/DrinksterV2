@@ -18,7 +18,7 @@ function NearbyParties(props: any) {
 
   const parties = [
     {
-      id: "1234",
+      id: "975652",
       name: "Old Irish Halloween party",
     },
     {
@@ -63,6 +63,8 @@ function NearbyParties(props: any) {
         data={parties}
         renderItem={partyItem}
         keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={true}
+        persistentScrollbar={true}
       />
     </View>
   );

@@ -14,6 +14,7 @@ import { signInWithEmail } from "../../utils/auth";
 import { NavigationContainer } from "@react-navigation/native";
 import DrinksterTitle from "../../common/components/drinksterTitle";
 import firebase from "firebase";
+import BackButton from "../../common/components/backButton";
 
 function LoginPage(props: any) {
   const [usernameField, setUsernameField] = useState("");
@@ -26,6 +27,7 @@ function LoginPage(props: any) {
 
   return (
     <SafeAreaView style={common.background}>
+      <BackButton navigation={props.navigation} />
       <DrinksterTitle style={common.title} />
       <View style={styles.container}>
         <Text style={common.text}>Login with Email</Text>

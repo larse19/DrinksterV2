@@ -51,6 +51,7 @@ export const createUser = async (username, email, password) => {
               .database()
               .ref("users/" + userCredential.user.uid)
               .set({
+                displayName: username,
                 party: "None",
                 previousParties: "None",
               })
