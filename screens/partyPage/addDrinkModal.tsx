@@ -3,13 +3,12 @@ import {
   View,
   Modal,
   Text,
-  SafeAreaView,
   StyleSheet,
   TouchableWithoutFeedback,
   TextInput,
-  StatusBar,
   Platform,
   KeyboardAvoidingView,
+  Keyboard,
 } from "react-native";
 import WideButton from "../../common/components/wideButton";
 import { addDrink } from "../../utils/database";
@@ -26,32 +25,47 @@ function AddDrinkModal(props: any) {
     vol: string;
   }
   const [drinks, setDrinks] = useState([
-    { id: uuid.v4(), name: "Beer", vol: "33cl" },
-    { id: uuid.v4(), name: "Beer", vol: "50cl" },
-    { id: uuid.v4(), name: "Vodka shot", vol: "2cl" },
-    { id: uuid.v4(), name: "Cider", vol: "33cl" },
-    { id: uuid.v4(), name: "Jägerbomb", vol: "10cl" },
-    { id: uuid.v4(), name: "Sourz shot", vol: "4cl" },
+    { id: uuid.v4(), name: "Beer", vol: "33" },
+    { id: uuid.v4(), name: "Beer", vol: "50" },
+    { id: uuid.v4(), name: "Vodka shot", vol: "2" },
+    { id: uuid.v4(), name: "Cider", vol: "33" },
+    { id: uuid.v4(), name: "Jägerbomb", vol: "10" },
+    { id: uuid.v4(), name: "Sourz shot", vol: "4" },
   ]);
   const [drinkName, setDrinkName] = useState("");
   const [drinkVol, setDrinkVol] = useState("");
+  const [keyboardIsShowing, setKeyboardIsShowing] = useState(false);
+
+  const closeModal = () => {
+    setDrinkName("");
+    setDrinkVol("");
+    props.toggleHandler();
+  };
 
   // Add new drink by entering name and volume
   const addNewDrink = () => {
+    if (drinkName == "" || drinkVol == "") {
+      return;
+    }
+
+    // Dont add if it already exists in the list
     let exists = false;
     drinks.forEach((drink) => {
-      // Dont add if it already exists in the list
-      if (drink.name == drinkName && drink.vol == drinkVol + "cl") {
+      if (
+        drink.name.toLocaleLowerCase() == drinkName.toLocaleLowerCase() &&
+        drink.vol == drinkVol
+      ) {
         exists = true;
         addDrinkFromList(drink);
       }
     });
+
     if (!exists) {
       // Add drink to list
       const newDrinkObj: Drink = {
         id: uuid.v4(),
         name: drinkName,
-        vol: drinkVol + "cl",
+        vol: drinkVol,
       };
       let temp = [...drinks, newDrinkObj];
       let first = newDrinkObj;
@@ -60,9 +74,14 @@ function AddDrinkModal(props: any) {
       });
       setDrinks(temp);
       // Add drink to database
-      addDrink(props.partyID, props.userID, drinkName, drinkVol + "cl");
-      props.toggleHandler(); // Close modal
+      addDrink(props.partyID, props.userID, drinkName, drinkVol);
+      closeModal();
     }
+  };
+
+  const choseFromList = (drink: Drink) => {
+    setDrinkName(drink.name);
+    setDrinkVol(drink.vol);
   };
 
   // Add existing frink from the list
@@ -74,7 +93,7 @@ function AddDrinkModal(props: any) {
     });
     setDrinks(temp);
     addDrink(props.partyID, props.userID, drink.name, drink.vol);
-    props.toggleHandler();
+    closeModal();
   };
 
   // Store the drinks to local async storage
@@ -106,29 +125,45 @@ function AddDrinkModal(props: any) {
   // Store the drinks list to local storage every time its updated
   useEffect(() => {
     let temp = drinks;
-    if (temp.length > 6) {
+    if (temp.length > 10) {
       temp.pop();
     }
     storeData(temp);
   }, [drinks]);
 
+  useEffect(() => {
+    const onShow = () => {
+      setKeyboardIsShowing(true);
+    };
+    const onHide = () => {
+      setKeyboardIsShowing(false);
+    };
+
+    Keyboard.addListener("keyboardDidShow", onShow);
+    Keyboard.addListener("keyboardDidHide", onHide);
+
+    return () => {
+      Keyboard.removeListener("keyboardDidShow", onShow);
+      Keyboard.removeListener("keyboardDidHide", onHide);
+    };
+  });
+
   return (
     <Modal visible={props.visible} animationType={"slide"} transparent={true}>
       <TouchableWithoutFeedback onPress={props.toggleHandler}>
         <CustomSafeAreaView style={styles.modalBackground}>
-          <View style={styles.container}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.container}
+          >
             <Text style={[common.text, styles.text]}>Choose a Drink</Text>
             <DrinksList
               style={{ paddingBottom: 5 }}
               drinks={drinks}
-              addNewDrinkFunction={addDrinkFromList}
+              addNewDrinkFunction={choseFromList}
             />
-
             <Text style={[common.text, styles.text]}>Add New Drink</Text>
-            <KeyboardAvoidingView
-              behavior={Platform.OS === "ios" ? "padding" : "height"}
-              style={styles.customDrinkContainer}
-            >
+            <View style={styles.customDrinkContainer}>
               <TextInput
                 style={[
                   inputStyles.textInput,
@@ -146,22 +181,25 @@ function AddDrinkModal(props: any) {
                 placeholder={"Vol."}
                 value={drinkVol}
                 onChangeText={setDrinkVol}
+                keyboardType={"numeric"}
               />
               <Text style={styles.unitText}>cl</Text>
-            </KeyboardAvoidingView>
+            </View>
+
             <WideButton
               title={"add"}
               color={colors.primary}
               style={styles.button}
               onPress={addNewDrink}
             ></WideButton>
+
             <WideButton
               title={"close"}
-              onPress={props.toggleHandler}
+              onPress={closeModal}
               color={colors.tertiary}
               style={styles.button}
             />
-          </View>
+          </KeyboardAvoidingView>
         </CustomSafeAreaView>
       </TouchableWithoutFeedback>
     </Modal>
@@ -178,6 +216,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     marginVertical: 20,
     paddingVertical: 15,
+    overflow: "hidden",
   },
   modalBackground: {
     flex: 1,
