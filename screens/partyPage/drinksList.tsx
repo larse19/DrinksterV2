@@ -1,15 +1,21 @@
-import React from "react";
-import { View, Text, FlatList, TouchableHighlight } from "react-native";
+import React, { useState } from "react";
+import {
+  View,
+  FlatList,
+  Text,
+  StyleSheet,
+  TouchableHighlight,
+} from "react-native";
 import { listStyles } from "../../common/styles/styles";
 
-function Leaderboard(props: any) {
+function DrinksList(props: any) {
   const item = ({ item }: any) => (
-    <TouchableHighlight>
+    <TouchableHighlight onPress={() => props.addNewDrinkFunction(item)}>
       <View style={listStyles.item}>
         <Text numberOfLines={1} style={listStyles.itemText}>
-          {item[item.id].displayName}
+          {item.name}
         </Text>
-        <Text style={listStyles.secondaryItemText}>{item.numOfDrinks}</Text>
+        <Text style={listStyles.secondaryItemText}>{item.vol}</Text>
       </View>
     </TouchableHighlight>
   );
@@ -17,14 +23,13 @@ function Leaderboard(props: any) {
   return (
     <View style={[listStyles.container, props.style]}>
       <FlatList
-        data={props.participants}
+        data={props.drinks}
         renderItem={item}
         keyExtractor={(item) => item.id}
         style={listStyles.list}
-        showsVerticalScrollIndicator={true}
       />
     </View>
   );
 }
 
-export default Leaderboard;
+export default DrinksList;

@@ -78,13 +78,13 @@ export const getPartyName = async (partyID) => {
   return obj.child("name");
 };
 
-export const addDrink = async (partyID, userID, drinkType) => {
+export const addDrink = async (partyID, userID, drinkName, drinkVol) => {
   const database = firebase.database();
   database
     .ref(
       "parties/" + partyID + "/participants/" + userID + "/drinks/" + Date.now()
     )
-    .set(drinkType);
+    .set({ name: drinkName, vol: drinkVol });
 };
 
 export const leaveParty = async (userID, partyID) => {

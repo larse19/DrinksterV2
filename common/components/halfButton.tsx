@@ -1,14 +1,23 @@
 import React from "react";
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import { Button } from "react-native-paper";
+import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
 
 const HalfButton = (props: any) => {
+  const [fontsLoaded] = useFonts({
+    Inter_900Black,
+  });
+
   return (
     <View
       style={[styles.button, props.style, { backgroundColor: props.color }]}
     >
       <Button onPress={props.onPress}>
-        <Text style={styles.text}>{props.title}</Text>
+        {fontsLoaded && (
+          <Text style={[styles.text, { fontFamily: "Inter_900Black" }]}>
+            {props.title}
+          </Text>
+        )}
       </Button>
     </View>
   );

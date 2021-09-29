@@ -19,7 +19,7 @@ function StartPage(props: any) {
 
   return (
     <CustomSafeAreaView style={common.background}>
-      <DrinksterTitle style={common.title} />
+      <DrinksterTitle />
       <View style={styles.container}>
         <WideButton
           title="Sign up"

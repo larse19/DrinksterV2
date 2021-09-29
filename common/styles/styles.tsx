@@ -1,4 +1,4 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 
 export const colors = {
   primary: "#FF8100",
@@ -12,13 +12,7 @@ export const colors = {
 export const common = StyleSheet.create({
   background: {
     flex: 1,
-    padding: "2%",
     backgroundColor: "#383535",
-  },
-  title: {
-    position: "absolute",
-    top: "10%",
-    alignSelf: "center",
   },
   text: {
     fontSize: 30,
@@ -41,7 +35,39 @@ export const inputStyles = StyleSheet.create({
     marginVertical: 10,
     paddingHorizontal: 10,
     fontSize: 20,
-    width: 350,
+    width: "90%",
     color: "white",
+  },
+});
+
+export const listStyles = StyleSheet.create({
+  item: {
+    backgroundColor: colors.grey,
+    marginVertical: 5,
+    borderRadius: 0,
+    padding: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  container: {
+    backgroundColor: colors.dark_grey,
+    borderRadius: 0,
+    width: "100%",
+    flexShrink: 1,
+    flexBasis: Dimensions.get("window").height * 0.5,
+    paddingHorizontal: "2%",
+  },
+  list: {
+    //flexGrow: 1
+  },
+  itemText: {
+    color: "white",
+    fontSize: 20,
+  },
+  secondaryItemText: {
+    color: "white",
+    fontSize: 20,
+    marginLeft: 5,
   },
 });

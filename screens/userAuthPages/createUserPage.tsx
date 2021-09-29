@@ -38,7 +38,7 @@ function CreateUserPage(props: any) {
   return (
     <CustomSafeAreaView style={common.background}>
       <BackButton navigation={props.navigation} />
-      <DrinksterTitle style={common.title} />
+      <DrinksterTitle />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.container}

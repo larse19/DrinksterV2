@@ -17,6 +17,7 @@ import WideButton from "../../common/components/wideButton";
 import HalfButton from "../../common/components/halfButton";
 import AddDrinkModal from "./addDrinkModal";
 import CustomSafeAreaView from "../../common/components/customSafeAreaView";
+import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
 
 function PartyPage(props: any) {
   const [partyName, setPartyName] = useState<string>("");
@@ -29,6 +30,9 @@ function PartyPage(props: any) {
   const [userID, setuserID] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [hasLeft, setHasLeft] = useState(false);
+  const [fontsLoaded] = useFonts({
+    Inter_900Black,
+  });
 
   const leavePartyAlert = () => {
     // Prompt the user before leaving the screen
@@ -126,9 +130,18 @@ function PartyPage(props: any) {
       <DrinksterTitle />
       <View style={styles.container}>
         <View style={styles.nameContainer}>
-          <Text style={[common.text, styles.partyName]} numberOfLines={1}>
-            {partyName}
-          </Text>
+          {fontsLoaded && (
+            <Text
+              style={[
+                common.text,
+                styles.partyName,
+                { fontFamily: "Inter_900Black" },
+              ]}
+              numberOfLines={1}
+            >
+              {partyName}
+            </Text>
+          )}
           <Text style={styles.partyID}>#{partyID}</Text>
         </View>
         <Leaderboard participants={particpants} />
@@ -161,6 +174,7 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: "center",
     marginBottom: 15,
+    width: "100%",
   },
   hbContainer: {
     flexDirection: "row",
@@ -177,7 +191,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-end",
-    width: Dimensions.get("window").width * 0.95,
+    width: "100%",
+    paddingHorizontal: "2%",
   },
 });
 

@@ -29,7 +29,7 @@ function LoginPage(props: any) {
   return (
     <CustomSafeAreaView style={common.background}>
       <BackButton navigation={props.navigation} />
-      <DrinksterTitle style={common.title} />
+      <DrinksterTitle />
       <View style={styles.container}>
         <Text style={common.text}>Login with Email</Text>
         <KeyboardAvoidingView
