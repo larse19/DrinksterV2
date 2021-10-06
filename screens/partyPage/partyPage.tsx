@@ -19,6 +19,7 @@ import AddDrinkModal from "./addDrinkModal";
 import CustomSafeAreaView from "../../common/components/customSafeAreaView";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
 import DrinksTimeline from "./drinksTimeline";
+import HomeButton from "../../common/components/homeButton";
 
 function PartyPage(props: any) {
   const [partyName, setPartyName] = useState<string>("");
@@ -53,23 +54,6 @@ function PartyPage(props: any) {
       ]
     );
   };
-
-  // Prevents the user from leaving the page without leaving the party
-  /*
-  useEffect(
-    () =>
-      props.navigation.addListener("beforeRemove", (e: any) => {
-        // Prevent default behavior of leaving the screen
-        console.log(hasLeft);
-        if (hasLeft) {
-          return;
-        }
-        e.preventDefault();
-        leavePartyAlert();
-      }),
-    [props.navigation, hasLeft]
-  );
-  */
 
   props.navigation.dispatch((state: any) => {
     const routes = state.routes.filter((r: any) => r.name == "Party Page");
@@ -134,6 +118,7 @@ function PartyPage(props: any) {
 
   return (
     <CustomSafeAreaView style={[common.background, { alignItems: "center" }]}>
+      <HomeButton navigation={props.navigation} />
       <DrinksterTitle />
       <View style={styles.container}>
         <View style={styles.nameContainer}>

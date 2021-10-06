@@ -17,6 +17,7 @@ import DrinksList from "./drinksList";
 import CustomSafeAreaView from "../../common/components/customSafeAreaView";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import uuid from "react-native-uuid";
+import { Button } from "react-native-paper";
 
 function AddDrinkModal(props: any) {
   interface Drink {
@@ -156,6 +157,9 @@ function AddDrinkModal(props: any) {
             behavior={Platform.OS === "ios" ? "padding" : "height"}
             style={styles.container}
           >
+            <Button onPress={closeModal} style={styles.closeButton}>
+              <Text style={styles.closeButtonText}>X</Text>
+            </Button>
             <Text style={[common.text, styles.text]}>Choose a Drink</Text>
             <DrinksList
               style={{ paddingBottom: 5 }}
@@ -192,13 +196,6 @@ function AddDrinkModal(props: any) {
               style={styles.button}
               onPress={addNewDrink}
             ></WideButton>
-
-            <WideButton
-              title={"close"}
-              onPress={closeModal}
-              color={colors.tertiary}
-              style={styles.button}
-            />
           </KeyboardAvoidingView>
         </CustomSafeAreaView>
       </TouchableWithoutFeedback>
@@ -239,6 +236,15 @@ const styles = StyleSheet.create({
   },
   text: {
     textAlign: "left",
+  },
+  closeButtonText: {
+    color: "white",
+    fontSize: 25,
+  },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 10,
   },
 });
 
