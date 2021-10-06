@@ -150,7 +150,7 @@ function AddDrinkModal(props: any) {
 
   return (
     <Modal visible={props.visible} animationType={"slide"} transparent={true}>
-      <TouchableWithoutFeedback onPress={props.toggleHandler}>
+      <TouchableWithoutFeedback onPress={closeModal}>
         <CustomSafeAreaView style={styles.modalBackground}>
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}

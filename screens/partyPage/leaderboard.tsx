@@ -4,7 +4,12 @@ import { listStyles } from "../../common/styles/styles";
 
 function Leaderboard(props: any) {
   const item = ({ item }: any) => (
-    <TouchableHighlight>
+    <TouchableHighlight
+      onPress={() => {
+        props.setTimeLineUserID(item.id);
+        props.onPress();
+      }}
+    >
       <View style={listStyles.item}>
         <Text numberOfLines={1} style={listStyles.itemText}>
           {item[item.id].displayName}

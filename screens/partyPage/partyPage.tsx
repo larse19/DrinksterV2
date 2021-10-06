@@ -18,6 +18,7 @@ import HalfButton from "../../common/components/halfButton";
 import AddDrinkModal from "./addDrinkModal";
 import CustomSafeAreaView from "../../common/components/customSafeAreaView";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
+import DrinksTimeline from "./drinksTimeline";
 
 function PartyPage(props: any) {
   const [partyName, setPartyName] = useState<string>("");
@@ -28,8 +29,11 @@ function PartyPage(props: any) {
   const [particpants, setParticipants] = useState<Participant[]>([]);
   const [partyID, setPartyID] = useState<string>("");
   const [userID, setuserID] = useState("");
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [drinksModalVisible, setDrinksModalVisible] = useState<boolean>(false);
+  const [drinksTimelineModalVisible, setDrinksTimelineModalVisible] =
+    useState<boolean>(false);
   const [hasLeft, setHasLeft] = useState(false);
+  const [timeLineUserID, setTimeLineUserID] = useState("");
   const [fontsLoaded] = useFonts({
     Inter_900Black,
   });
@@ -121,8 +125,11 @@ function PartyPage(props: any) {
     });
   };
 
-  const toggleModal = () => {
-    setModalVisible(!modalVisible);
+  const toggleDrinksModal = () => {
+    setDrinksModalVisible(!drinksModalVisible);
+  };
+  const toggleDrinksTimelineModal = () => {
+    setDrinksTimelineModalVisible(!drinksTimelineModalVisible);
   };
 
   return (
@@ -144,18 +151,28 @@ function PartyPage(props: any) {
           )}
           <Text style={styles.partyID}>#{partyID}</Text>
         </View>
-        <Leaderboard participants={particpants} />
+        <Leaderboard
+          participants={particpants}
+          onPress={toggleDrinksTimelineModal}
+          setTimeLineUserID={setTimeLineUserID}
+        />
       </View>
       <WideButton
         title={"add drink"}
         color={colors.secondary}
-        onPress={() => setModalVisible(true)}
+        onPress={() => setDrinksModalVisible(true)}
       />
       <AddDrinkModal
-        visible={modalVisible}
-        toggleHandler={toggleModal}
+        visible={drinksModalVisible}
+        toggleHandler={toggleDrinksModal}
         partyID={partyID}
         userID={userID}
+      />
+      <DrinksTimeline
+        visible={drinksTimelineModalVisible}
+        toggleHandler={toggleDrinksTimelineModal}
+        partyID={partyID}
+        userID={timeLineUserID}
       />
       <View style={styles.hbContainer}>
         <HalfButton title={"invite"} color={colors.primary} />
