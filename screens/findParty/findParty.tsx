@@ -36,24 +36,6 @@ const FindParty = (props: any) => {
     setPartyID(inputValue);
   }, [inputValue]);
 
-  useEffect(() => {
-    const onValueChange = firebase
-      .database()
-      .ref("users/" + firebase.auth().currentUser?.uid)
-      .on("value", (snapshot) => {
-        if (snapshot.val().party != "None") {
-          props.navigation.navigate("Party Page", {
-            partyID: snapshot.val().party,
-          });
-        }
-      });
-    return () =>
-      firebase
-        .database()
-        .ref("users/" + firebase.auth().currentUser?.uid)
-        .off("value", onValueChange);
-  }, []);
-
   return (
     <CustomSafeAreaView style={[common.background]}>
       <BackButton navigation={props.navigation} />
